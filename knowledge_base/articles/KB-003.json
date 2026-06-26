@@ -1,0 +1,9 @@
+{
+  "id": "KB-003",
+  "title": "Inviting Team Members to Your CloudDash Organization",
+  "category": "faqs",
+  "tags": ["team", "invite", "onboarding", "collaboration"],
+  "content": "CloudDash organizations allow your team to collaborate on dashboards, alert rules, and incident response within a shared workspace. Inviting team members is straightforward and supports role-based access from the moment they accept.\n\nTo invite a team member, go to Settings > Team Management and click 'Invite Member'. Enter their email address and select a role: Viewer (read-only dashboards and alerts), Editor (create and modify dashboards, alert rules, and integrations), or Admin (full organization settings including billing and SSO). Invitations expire after 7 days if not accepted.\n\nInvited users receive an email with a secure link. If your organization uses SSO (see KB-020), invited users with matching email domains are redirected to your identity provider for authentication on first login. For organizations without SSO, invitees create a CloudDash password or sign in with Google/GitHub OAuth if enabled by your admin.\n\nStarter plans include up to 3 team members. Pro plans include 15 seats with additional seats at $25/month each. Enterprise plans include unlimited seats with SCIM provisioning for automated user lifecycle management. Admins can revoke pending invitations or deactivate active members at any time from the Team Management page.\n\nWhen a member is removed, their personal dashboard bookmarks are deleted but shared dashboards and alert rules they created remain in the organization. Reassign ownership of critical alert rules before removing an Editor or Admin. Audit logs capture all invitation, acceptance, role change, and removal events for compliance purposes.",
+  "last_updated": "2025-12-01",
+  "applies_to": ["Starter", "Pro", "Enterprise"]
+}

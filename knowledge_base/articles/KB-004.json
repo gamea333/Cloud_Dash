@@ -1,0 +1,9 @@
+{
+  "id": "KB-004",
+  "title": "What is CloudDash?",
+  "category": "faqs",
+  "tags": ["overview", "product", "monitoring", "getting-started"],
+  "content": "CloudDash is a cloud infrastructure monitoring platform designed for DevOps teams, site reliability engineers, and platform engineers who manage multi-cloud environments. It provides a single pane of glass for metrics, logs, alerts, and incident management across AWS, GCP, Azure, and Kubernetes clusters.\n\nFounded in 2021, CloudDash addresses the fragmentation problem in cloud observability. Instead of switching between AWS CloudWatch, GCP Monitoring, and Azure Monitor consoles, teams use CloudDash to build unified dashboards that correlate metrics across providers. The platform ingests time-series data, applies intelligent alerting with anomaly detection, and routes notifications to Slack, PagerDuty, email, or custom webhooks.\n\nKey capabilities include: real-time dashboard builder with 40+ visualization widgets, alert rule engine with composite conditions and escalation policies, log search across connected cloud logging services, API and SDK for programmatic access, role-based access control for enterprise security, and SLA reporting for uptime tracking.\n\nCloudDash is available in three tiers. Starter ($49/month) suits small teams monitoring a single cloud provider with up to 50 alert rules. Pro ($199/month) adds multi-cloud support, anomaly detection, and 15 team seats. Enterprise (custom pricing) includes dedicated support, SSO/SAML, audit logs, custom SLAs, and on-premise deployment options.\n\nGetting started takes less than 15 minutes: create an account at app.clouddash.io, connect your first cloud provider using our guided integration wizard, and import one of our 30+ pre-built dashboard templates for common infrastructure patterns like microservices, serverless, or data pipelines.",
+  "last_updated": "2026-01-10",
+  "applies_to": ["Starter", "Pro", "Enterprise"]
+}

@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: clouddash-support
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt && python retrieval/ingest.py
+    startCommand: uvicorn api.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: CHROMA_PERSIST_DIR
+        value: ./chroma_db
+      - key: LOG_LEVEL
+        value: INFO

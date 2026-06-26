@@ -1,0 +1,63 @@
+# Intent-to-agent routing map for CloudDash customer support
+intents:
+  technical: TechnicalSupport
+  billing: Billing
+  account: TechnicalSupport
+  general: Triage
+  escalation: Escalation
+  unknown: Triage
+
+# Keyword hints used by Triage for intent classification
+intent_keywords:
+  technical:
+    - alert
+    - dashboard
+    - integration
+    - cloudwatch
+    - aws
+    - gcp
+    - azure
+    - api
+    - webhook
+    - sdk
+    - error
+    - outage
+    - latency
+    - monitor
+  billing:
+    - invoice
+    - payment
+    - refund
+    - plan
+    - subscription
+    - charge
+    - billing
+    - pricing
+    - upgrade
+    - downgrade
+  account:
+    - sso
+    - rbac
+    - role
+    - permission
+    - team
+    - invite
+    - audit
+    - login
+    - access
+  escalation:
+    - manager
+    - supervisor
+    - escalate
+    - urgent
+    - legal
+    - complaint
+    - frustrated
+    - cancel account
+  general:
+    - hello
+    - hi
+    - help
+    - what is
+    - getting started
+    - overview
