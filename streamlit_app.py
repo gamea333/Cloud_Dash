@@ -44,7 +44,7 @@ def _error_from_status(status_code: int) -> ApiError:
 
 def _api_request(method: str, url: str, **kwargs: Any) -> dict[str, Any]:
     try:
-        response = requests.request(method, url, timeout=kwargs.pop("timeout", 30), **kwargs)
+        response = requests.request(method, url, timeout=kwargs.pop("timeout", 60), **kwargs)
     except requests.ConnectionError:
         raise ApiError(CONNECTION_MSG, retryable=True) from None
     except requests.Timeout:
@@ -66,7 +66,7 @@ def _api_request(method: str, url: str, **kwargs: Any) -> dict[str, Any]:
 
 
 def create_conversation() -> tuple[str, str]:
-    data = _api_request("POST", f"{API_BASE_URL}/conversations", timeout=30)
+    data = _api_request("POST", f"{API_BASE_URL}/conversations", timeout=60)
     return data["conversation_id"], data["trace_id"]
 
 
@@ -94,7 +94,7 @@ def send_message(conversation_id: str, content: str) -> dict[str, Any]:
         "POST",
         f"{API_BASE_URL}/conversations/{conversation_id}/messages",
         json={"content": content},
-        timeout=120,
+        timeout=60,
     )
 
 
@@ -102,7 +102,7 @@ def fetch_handover_log(conversation_id: str) -> dict[str, Any]:
     return _api_request(
         "GET",
         f"{API_BASE_URL}/conversations/{conversation_id}/handover-log",
-        timeout=30,
+        timeout=60,
     )
 
 
