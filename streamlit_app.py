@@ -5,7 +5,7 @@ from __future__ import annotations
 import requests
 import streamlit as st
 
-API_BASE_URL = "http://localhost:8000"
+API_BASE_URL = "https://cloud-dash.onrender.com/"
 
 
 def create_conversation() -> tuple[str, str]:
