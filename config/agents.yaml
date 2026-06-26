@@ -67,7 +67,7 @@ agents:
       - entity_extractor
       - integration_checker
     escalation_threshold: 0.4
-    model: llama-3.3-70b-versatile
+    model: llama-3.1-8b-instant
     temperature: 0.2
     max_tokens: 2048
 
@@ -100,7 +100,7 @@ agents:
       - entity_extractor
       - plan_lookup
     escalation_threshold: 0.5
-    model: llama-3.3-70b-versatile
+    model: llama-3.1-8b-instant
     temperature: 0.2
     max_tokens: 1536
 
@@ -130,6 +130,6 @@ agents:
       - escalation_packager
       - sentiment_analyzer
     escalation_threshold: 1.0
-    model: llama-3.3-70b-versatile
+    model: llama-3.1-8b-instant
     temperature: 0.4
     max_tokens: 1024

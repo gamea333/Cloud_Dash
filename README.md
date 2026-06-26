@@ -35,8 +35,8 @@ CloudDash Support is a multi-agent AI customer service system for **CloudDash**,
                                            │
                                            ▼
                                   ┌────────────────┐
-                                  │   Groq LLM     │──── llama-3.1-8b-instant (fast)
-                                  └────────────────┘──── llama-3.3-70b-versatile (agents)
+                                  │   Groq LLM     │──── llama-3.1-8b-instant
+                                  └────────────────┘
 ```
 
 ## Setup Instructions
@@ -169,7 +169,7 @@ Invoke-RestMethod -Uri "http://localhost:8000/conversations/$convId/handover-log
 | **FastAPI** | Async-ready, automatic OpenAPI docs, Pydantic validation, minimal boilerplate |
 | **State machine over graph framework** | Four agents with explicit handover rules are simple enough for a hand-rolled orchestrator; avoids LangGraph/LangChain complexity for a focused support flow |
 | **sentence-transformers (`all-MiniLM-L6-v2`)** | Runs locally, no API key, fast embeddings, good quality for short KB articles |
-| **Groq** | Very fast inference, generous free tier, supports JSON-mode classification and high-quality 70B responses |
+| **Groq** | Very fast inference, generous free tier, supports JSON-mode classification and agent responses via `llama-3.1-8b-instant` |
 
 ## Known Limitations
 

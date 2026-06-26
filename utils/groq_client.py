@@ -12,7 +12,7 @@ from groq import Groq, RateLimitError
 
 from utils.logger import SupportLogger
 
-DEFAULT_MODEL = "llama-3.3-70b-versatile"
+DEFAULT_MODEL = "llama-3.1-8b-instant"
 FAST_MODEL = "llama-3.1-8b-instant"
 MAX_RETRIES = 3
 BASE_BACKOFF_SECONDS = 1.0

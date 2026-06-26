@@ -55,7 +55,7 @@ Per-agent system prompts, tool lists, escalation thresholds, model selection, an
 6. Triage returns `AgentResponse(requires_handover=True, handover_target="TechnicalSupport")`
 7. **HandoverManager.execute_handover()** — updates `current_agent`, preserves entities, logs `HandoverLog`
 8. **TechnicalSupportAgent.run()** — `retriever.retrieve("alerts not firing")` → KB-005 chunks
-9. Groq 70B generates numbered troubleshooting steps with citations
+9. Groq generates numbered troubleshooting steps with citations
 10. **Output guardrails** — KB chunks present → response allowed; PII redaction if needed
 11. Assistant message appended; `AgentResponse` returned to client
 
@@ -70,7 +70,7 @@ Per-agent system prompts, tool lists, escalation thresholds, model selection, an
 3. Handover Triage → Billing; `customer_id` entity extracted if present
 4. **BillingAgent.run()** — `_mock_account_lookup(customer_id)` generates plan/invoice data
 5. KB retrieval fetches KB-009 (plan comparison), KB-011 (invoice explanation)
-6. Groq 70B explains charges citing KB policy + mock invoice line items
+6. Groq explains charges citing KB policy + mock invoice line items
 7. Output guardrails pass; response returned
 
 ---
