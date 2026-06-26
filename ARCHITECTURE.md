@@ -24,7 +24,7 @@ Packages the full conversation into an `EscalationPackage` with priority, sentim
 Executes agent-to-agent transfers. Validates target agent exists, merges extracted entities into conversation state, writes immutable `HandoverLog` entries with context snapshots, and falls back to Triage on failure.
 
 ### `retrieval/ingest.py` + `retrieval/retriever.py`
-RAG pipeline. `ingest.py` chunks articles (512 tokens, 50 overlap), embeds with `all-MiniLM-L6-v2`, stores in ChromaDB. `retriever.py` rewrites queries with conversation context via Groq, retrieves top-k chunks, and formats citations.
+RAG pipeline. `ingest.py` chunks articles (512 tokens, 50 overlap), stores in ChromaDB with `DefaultEmbeddingFunction` (all-MiniLM-L6-v2 via ONNX). `retriever.py` rewrites queries with conversation context via Groq, retrieves top-k chunks, and formats citations.
 
 ### `utils/groq_client.py`
 Groq SDK wrapper with exponential backoff on rate limits, JSON parsing, and per-call latency/token logging.

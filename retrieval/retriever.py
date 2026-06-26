@@ -6,10 +6,9 @@ from typing import Any, Optional
 
 import chromadb
 from chromadb.config import Settings
-from sentence_transformers import SentenceTransformer
 
 from models import Message
-from retrieval.ingest import COLLECTION_NAME, EMBEDDING_MODEL
+from retrieval.ingest import COLLECTION_NAME, get_collection
 from utils.groq_client import FAST_MODEL, GroqClient
 from utils.logger import SupportLogger
 
@@ -38,8 +37,7 @@ class KnowledgeRetriever:
             path=chroma_dir,
             settings=Settings(anonymized_telemetry=False),
         )
-        self.collection = self.client.get_or_create_collection(name=COLLECTION_NAME)
-        self.embedder = SentenceTransformer(EMBEDDING_MODEL)
+        self.collection = get_collection(self.client, name=COLLECTION_NAME)
         self.groq = groq_client
         self.logger = logger
 
@@ -75,9 +73,8 @@ class KnowledgeRetriever:
         if rewrite and conversation_history is not None:
             search_query = self.query_rewriter(query, conversation_history)
 
-        embedding = self.embedder.encode(search_query, normalize_embeddings=True).tolist()
         results = self.collection.query(
-            query_embeddings=[embedding],
+            query_texts=[search_query],
             n_results=top_k,
             include=["documents", "metadatas", "distances"],
         )

@@ -1,4 +1,4 @@
-"""Knowledge base ingestion: chunk, embed, and store articles in ChromaDB."""
+"""Knowledge base ingestion: chunk and store articles in ChromaDB."""
 
 import json
 import os
@@ -8,12 +8,24 @@ from typing import Any
 import chromadb
 from chromadb.config import Settings
 from chromadb.errors import NotFoundError
-from sentence_transformers import SentenceTransformer
+from chromadb.utils import embedding_functions
 
 CHUNK_SIZE = 512
 CHUNK_OVERLAP = 50
-EMBEDDING_MODEL = "all-MiniLM-L6-v2"
 COLLECTION_NAME = "clouddash_kb"
+
+
+def get_embedding_function() -> embedding_functions.DefaultEmbeddingFunction:
+    """ChromaDB default: all-MiniLM-L6-v2 via ONNX (lower memory than sentence-transformers)."""
+    return embedding_functions.DefaultEmbeddingFunction()
+
+
+def get_collection(client: chromadb.PersistentClient, name: str = COLLECTION_NAME):
+    return client.get_or_create_collection(
+        name=name,
+        embedding_function=get_embedding_function(),
+        metadata={"hnsw:space": "cosine"},
+    )
 
 
 def _chunk_text(text: str, chunk_size: int = CHUNK_SIZE, overlap: int = CHUNK_OVERLAP) -> list[str]:
@@ -45,8 +57,9 @@ def ingest(
     reset: bool = False,
 ) -> int:
     """
-    Load JSON articles, chunk content, embed with sentence-transformers,
-    and persist to ChromaDB. Returns number of chunks indexed.
+    Load JSON articles, chunk content, and persist to ChromaDB.
+    Embeddings are computed by ChromaDB's DefaultEmbeddingFunction.
+    Returns number of chunks indexed.
     """
     base = Path(__file__).resolve().parent.parent
     articles_path = Path(articles_dir) if articles_dir else base / "knowledge_base" / "articles"
@@ -56,7 +69,6 @@ def ingest(
     if not articles:
         raise FileNotFoundError(f"No JSON articles found in {articles_path}")
 
-    model = SentenceTransformer(EMBEDDING_MODEL)
     client = chromadb.PersistentClient(
         path=chroma_dir,
         settings=Settings(anonymized_telemetry=False),
@@ -68,15 +80,11 @@ def ingest(
         except NotFoundError:
             pass
 
-    collection = client.get_or_create_collection(
-        name=COLLECTION_NAME,
-        metadata={"hnsw:space": "cosine"},
-    )
+    collection = get_collection(client)
 
     ids: list[str] = []
     documents: list[str] = []
     metadatas: list[dict[str, Any]] = []
-    embeddings: list[list[float]] = []
 
     for article in articles:
         article_id = article["id"]
@@ -88,7 +96,6 @@ def ingest(
         for idx, chunk in enumerate(chunks):
             chunk_id = f"{article_id}_chunk_{idx}"
             enriched = f"[{title}] {chunk}"
-            embedding = model.encode(enriched, normalize_embeddings=True).tolist()
 
             ids.append(chunk_id)
             documents.append(enriched)
@@ -101,13 +108,11 @@ def ingest(
                     "tags": ",".join(article.get("tags", [])),
                 }
             )
-            embeddings.append(embedding)
 
     collection.upsert(
         ids=ids,
         documents=documents,
         metadatas=metadatas,
-        embeddings=embeddings,
     )
     return len(ids)
 

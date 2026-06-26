@@ -30,7 +30,7 @@ CloudDash Support is a multi-agent AI customer service system for **CloudDash**,
                                            ▼
                                   ┌────────────────┐
                                   │  RAG Pipeline  │──── ChromaDB (local vectors)
-                                  │   retriever    │──── sentence-transformers
+                                  │   retriever    │──── ChromaDB DefaultEmbeddingFunction
                                   └────────────────┘
                                            │
                                            ▼
@@ -168,7 +168,7 @@ Invoke-RestMethod -Uri "http://localhost:8000/conversations/$convId/handover-log
 | **ChromaDB** | Lightweight embedded vector store; no external DB service; persists to disk; ideal for demos and Render free tier |
 | **FastAPI** | Async-ready, automatic OpenAPI docs, Pydantic validation, minimal boilerplate |
 | **State machine over graph framework** | Four agents with explicit handover rules are simple enough for a hand-rolled orchestrator; avoids LangGraph/LangChain complexity for a focused support flow |
-| **sentence-transformers (`all-MiniLM-L6-v2`)** | Runs locally, no API key, fast embeddings, good quality for short KB articles |
+| **ChromaDB DefaultEmbeddingFunction (`all-MiniLM-L6-v2` via ONNX)** | Low-memory local embeddings bundled with ChromaDB; no sentence-transformers or API key required |
 | **Groq** | Very fast inference, generous free tier, supports JSON-mode classification and agent responses via `llama-3.1-8b-instant` |
 
 ## Known Limitations
