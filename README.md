@@ -189,7 +189,7 @@ Invoke-RestMethod -Uri "http://localhost:8000/conversations/$convId/handover-log
 4. Set `GROQ_API_KEY` in the Render dashboard (Environment)
 5. Deploy
 
-**Live URL:** Deployed at: https://clouddash-7diu2zckpqfqpcrv7tztgg.streamlit.app/
+**Live URL:** Deployed at: https://YOUR-APP.onrender.com
 
 ### Docker
 

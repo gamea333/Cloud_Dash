@@ -200,6 +200,29 @@ def render_assistant_message(msg: dict[str, Any]) -> None:
             st.caption(f"KB sources: {', '.join(kb_sources)}")
 
 
+def submit_user_message(prompt: str) -> None:
+    """Send a user message to the API and update session chat history."""
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    conv_id = st.session_state.conversation_id
+    try:
+        with st.spinner("Routing to the right agent..."):
+            response = send_message(conv_id, prompt)
+        st.session_state.messages.append(
+            {
+                "role": "assistant",
+                "content": response["content"],
+                "agent_name": response.get("agent_name"),
+                "kb_sources_cited": response.get("kb_sources_cited", []),
+            }
+        )
+        st.session_state.pop("pending_message", None)
+        st.session_state.pop("chat_error", None)
+    except ApiError as exc:
+        st.session_state.pending_message = prompt
+        st.session_state.chat_error = exc
+        st.session_state.messages.pop()
+
+
 def _retry_pending_message() -> None:
     pending = st.session_state.get("pending_message")
     conv_id = st.session_state.get("conversation_id")
@@ -349,34 +372,8 @@ def main() -> None:
             render_assistant_message(msg)
 
     if prompt := st.chat_input("Describe your CloudDash issue..."):
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        with st.chat_message("user"):
-            st.markdown(prompt)
-
-        conv_id = st.session_state.conversation_id
-        try:
-            with st.spinner("Routing to the right agent..."):
-                response = send_message(conv_id, prompt)
-            st.session_state.messages.append(
-                {
-                    "role": "assistant",
-                    "content": response["content"],
-                    "agent_name": response.get("agent_name"),
-                    "kb_sources_cited": response.get("kb_sources_cited", []),
-                }
-            )
-            st.session_state.pop("pending_message", None)
-            st.session_state.pop("chat_error", None)
-            render_assistant_message(st.session_state.messages[-1])
-        except ApiError as exc:
-            st.session_state.pending_message = prompt
-            st.session_state.chat_error = exc
-            st.session_state.messages.pop()
-            show_api_error(
-                exc,
-                retry_key="chat_send_retry",
-                on_retry=_retry_pending_message,
-            )
+        submit_user_message(prompt)
+        st.rerun()
 
 
 if __name__ == "__main__":
